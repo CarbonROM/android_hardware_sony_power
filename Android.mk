@@ -1,7 +1,5 @@
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(call is-vendor-board-platform,QCOM),true)
-
 # HAL module implemenation stored in
 # hw/<POWERS_HARDWARE_MODULE_ID>.<ro.hardware>.so
 include $(CLEAR_VARS)
@@ -11,23 +9,23 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libdl
 LOCAL_SRC_FILES := power.c metadata-parser.c utils.c list.c hint-data.c
 
 # Include target-specific files.
-ifeq ($(call is-board-platform-in-list, msm8916), true)
+ifneq ($(filter msm8916,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SRC_FILES += power-8916.c
 endif
 
-ifeq ($(call is-board-platform-in-list, msm8952), true)
+ifneq ($(filter msm8952,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SRC_FILES += power-8952.c
 endif
 
-ifeq ($(call is-board-platform-in-list, msm8974), true)
+ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SRC_FILES += power-8974.c
 endif
 
-ifeq ($(call is-board-platform-in-list, msm8994), true)
+ifneq ($(filter msm8994,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SRC_FILES += power-8994.c
 endif
 
-ifeq ($(call is-board-platform-in-list, msm8996), true)
+ifneq ($(filter msm8996,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_SRC_FILES += power-8996.c
 endif
 
@@ -35,8 +33,6 @@ ifeq ($(TARGET_USES_INTERACTION_BOOST),true)
     LOCAL_CFLAGS += -DINTERACTION_BOOST
 endif
 
-LOCAL_MODULE := power.qcom
+LOCAL_MODULE := power.$(TARGET_DEVICE)
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_SHARED_LIBRARY)
-
-endif
